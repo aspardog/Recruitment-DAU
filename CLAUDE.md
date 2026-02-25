@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Purpose
 
-Automated CV evaluation system for recruitment. Uses LLM-based semantic analysis to evaluate candidates against job requirements.
+Automated CV evaluation system for recruitment. Uses local LLM-based semantic analysis to evaluate candidates against job requirements. All processing happens locally — no data leaves your machine.
 
-**Current Position:** WJP Data Analyst – Consultant (World Justice Project)
+**Production tested:** Selected 15 finalists from 2,000+ candidates for a Data Analyst position.
 
 ## Architecture
 
@@ -15,15 +15,13 @@ Automated CV evaluation system for recruitment. Uses LLM-based semantic analysis
 ```
 PDFs in CANDIDATES_DIR (default: "Data Analyst/")
   ↓
-cv_parser.py        # pdfplumber extraction (PyPDF2 fallback)
+cv_parser.py            # pdfplumber extraction (PyPDF2 fallback)
   ↓
-llm_analyzer.py     # Cloud: Groq API with caching
-  OR
-local_llm_analyzer.py  # Local: Ollama/LM Studio/llama-cpp
+local_llm_analyzer.py   # Local LLM via Ollama (100% private)
   ↓
-scorer.py           # Weighted scoring across 4 categories
+scorer.py               # Weighted scoring across 4 categories
   ↓
-Finalists/          # Top N candidates with ranked filenames
+Finalists/              # Top N candidates with ranked filenames
 ```
 
 ### Key Modules
@@ -32,8 +30,7 @@ Finalists/          # Top N candidates with ranked filenames
 |--------|---------|
 | `main.py` | Entry point, orchestrates pipeline |
 | `Code/cv_parser.py` | PDF text extraction with fallback |
-| `Code/llm_analyzer.py` | Groq cloud LLM with 30-day cache |
-| `Code/local_llm_analyzer.py` | Local LLM (Ollama, LM Studio, llama-cpp) |
+| `Code/local_llm_analyzer.py` | Local LLM analysis (Ollama) |
 | `Code/scorer.py` | Weighted scoring: Required(35%) + Experience(30%) + Education(20%) + Preferred(15%) |
 
 ### Configuration (Two Files)
@@ -45,11 +42,11 @@ Finalists/          # Top N candidates with ranked filenames
 - `CATEGORY_WEIGHTS`: Scoring weights (must sum to 1.0)
 - `CUSTOM_INSTRUCTIONS`: LLM prompt instructions by category
 - `ANALYSIS_PROMPT_TEMPLATE`: Full LLM prompt with chain-of-thought
-- `ASPECT_MODIFIERS`: Score boosts (e.g., +40% for NGO experience) and penalties
+- `ASPECT_MODIFIERS`: Score boosts and penalties
 
 **`Parameters/config.py`** — System configuration:
-- `GROQ_MODEL`, API settings, timeouts
 - `CANDIDATES_DIR`, `FINALISTS_DIR`, `NUM_FINALISTS`
+- LLM settings and timeouts
 - Imports all criteria from model_parameters.py
 
 ### Scoring Formula
@@ -86,18 +83,12 @@ python Code/test_scorer.py
 cp .env.example .env
 ```
 
-**Local LLM (private, $0 cost):**
+**Local LLM with Ollama:**
 ```
 USE_LOCAL_LLM=true
 LOCAL_LLM_BACKEND=ollama
 LOCAL_LLM_MODEL=qwen2.5:3b    # For 8GB RAM
 # LOCAL_LLM_MODEL=llama3.1:8b  # For 16GB+ RAM
-```
-
-**Cloud LLM (Groq):**
-```
-USE_LOCAL_LLM=false
-GROQ_API_KEY=your_key_here
 ```
 
 ### Adapting for a Different Position
@@ -112,9 +103,8 @@ Edit `Parameters/model_parameters.py`:
 
 ## Troubleshooting
 
-**Cloud LLM fails:** Verify `GROQ_API_KEY` in .env and check API quota.
-
 **Local LLM not responding:**
 - Ensure `ollama serve` is running
 - Run `python test_local_llm.py` for diagnostics
 - Try a smaller model (qwen2.5:3b) if memory-constrained
+- Verify model is installed: `ollama list`
