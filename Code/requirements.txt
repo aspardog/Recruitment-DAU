@@ -1,0 +1,16 @@
+PyPDF2>=3.0.0
+pdfplumber>=0.11.0
+python-dotenv>=1.0.0
+
+# Cloud LLM (optional - only if using Groq)
+groq>=0.4.0
+
+# Local LLM options (choose one based on your preference):
+# Option 1 - Ollama (RECOMMENDED for privacy)
+ollama>=0.1.0
+
+# Option 2 - LM Studio (requires OpenAI client)
+# openai>=1.0.0
+
+# Option 3 - llama-cpp-python (advanced users)
+# llama-cpp-python>=0.2.0

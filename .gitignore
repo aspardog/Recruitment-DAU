@@ -1,0 +1,187 @@
+# ============================================================================
+# CV EVALUATION SYSTEM - GITIGNORE
+# Ensures only code framework is committed, not sensitive data or config
+# ============================================================================
+
+# ============================================================================
+# SENSITIVE CONFIGURATION (NEVER COMMIT)
+# ============================================================================
+
+# API Keys and Environment Variables
+.env
+.env.local
+.env.*.local
+
+# All Parameters - Evaluation criteria and prompts are confidential
+Parameters/*.py
+Parameters/**/*.py
+!Parameters/archive/model_parameters_TEMPLATE.py  # Exception: Template is OK
+
+# ============================================================================
+# PRIVATE DATA (NEVER COMMIT)
+# ============================================================================
+
+# All PDF files - Candidate CVs and results
+*.pdf
+
+# Candidate CVs directory
+Data Analyst/
+Data Analyst/**/*
+
+# Results directory
+Finalists/
+Finalists/**/*
+
+# Analysis results and logs in Finalists
+*.txt
+!requirements.txt  # Exception: Python dependencies are OK
+!WJP_Data_Analyst_Position.txt  # Exception: Job posting is OK
+
+# ============================================================================
+# PYTHON ARTIFACTS
+# ============================================================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# ============================================================================
+# CACHES
+# ============================================================================
+
+# LLM Analysis cache
+.cache/
+.cache/**/*
+Code/.cache/
+Code/.cache/**/*
+
+# Pytest cache
+.pytest_cache/
+.pytest_cache/**/*
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+
+# ============================================================================
+# IDE AND EDITOR FILES
+# ============================================================================
+
+# VS Code
+.vscode/
+.vscode/**/*
+
+# PyCharm
+.idea/
+.idea/**/*
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.*.swp
+.*.swo
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ============================================================================
+# OPERATING SYSTEM FILES
+# ============================================================================
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# ============================================================================
+# TEMPORARY FILES
+# ============================================================================
+
+# Temporary test files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Log files
+*.log
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+.ipynb_checkpoints/**/*
+
+# ============================================================================
+# WHAT SHOULD BE COMMITTED
+# ============================================================================
+
+# These files SHOULD be in the repository:
+# - Code/*.py (all Python modules)
+# - Code/archive/*.py (archived code)
+# - Code/requirements.txt (dependencies)
+# - Code/test_*.py (unit tests)
+# - Documentation/*.md (all documentation)
+# - Documentation/archive/*.md (archived docs)
+# - main.py (main execution script)
+# - README.md (this project README)
+# - .gitignore (this file)
+# - .env.example (template for environment variables)
+# - WJP_Data_Analyst_Position.txt (job posting reference)
+
+# Everything else should be ignored for security and privacy.
+.claude/
